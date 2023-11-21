@@ -13,6 +13,10 @@ Instalar **composer** desde cero:
     php composer-setup.php
     php -r "unlink('composer-setup.php');"
 
+Cambia el nombre de *composer.phar* a *composer*:
+
+    mv composer.phar composer
+
 Instala las **dependencias de Composer** que *no se incluyen en el control de versiones* debido a las restricciones establecidas en el archivo **.gitignore**:
 
     php .././composer install
