@@ -4,7 +4,14 @@ Propuesta de solución al proyecto dentro del módulo de M7 de 2do de DAW.
 ## Preparación de entorno
 Clona el directorio del proyecto:
 
-    git clone https://github.com/juditmaria/project-m7.git
+    git clone https://github.com/juditmaria/projecte-m7.git
+
+Instalar **composer** desde cero:
+
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    php -r "if (hash_file('sha384', 'composer-setup.php') ===         'e21205b207c3ff031906575712edab6f13eb0b361f2085f1f1237b7126d785e826a450292b6cfd1d64d92e6563bbde02') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+    php composer-setup.php
+    php -r "unlink('composer-setup.php');"
 
 Instala las **dependencias de Composer** que *no se incluyen en el control de versiones* debido a las restricciones establecidas en el archivo **.gitignore**:
 
