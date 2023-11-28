@@ -20,19 +20,19 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $collectionQuery = Post::orderBy('created_at', 'desc');
-
+    
         // Filter?
         if ($search = $request->get('search')) {
             $collectionQuery->where('body', 'like', "%{$search}%");
         }
         
-        // Pagination
+        // Pagination with likes count
         $posts = $this->_pagination 
-            ? $collectionQuery->paginate(5)->withQueryString() 
-            : $collectionQuery->get();
+            ? $collectionQuery->withCount('likes')->paginate(5)->withQueryString() 
+            : $collectionQuery->withCount('likes')->get();
         
         return view("posts.index", [
-            "posts" => $posts,
+            "posts"  => $posts,
             "search" => $search
         ]);
     }
@@ -102,10 +102,17 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        // Cargar el número total de likes
+        $post->loadCount('likes');
+
+        // Verificar si el usuario autenticado ha dado like al post
+        $userHasLiked = $post->likes()->where('user_id', $post->user->id)->exists();
+
         return view("posts.show", [
-            'post'   => $post,
-            'file'   => $post->file,
-            'author' => $post->user,
+            'post'         => $post,
+            'file'         => $post->file,
+            'author'       => $post->user,
+            'userHasLiked' => $userHasLiked,
         ]);
     }
 
@@ -194,5 +201,26 @@ class PostController extends Controller
         return view("posts.delete", [
             'post' => $post
         ]);
+    }
+
+    public function like(Post $post)
+    {
+        // Lógica para agregar un "like" al post
+        if (!$post->likes()->where('user_id', auth()->id())->exists()) {
+            $post->likes()->attach(auth()->id());
+
+            /* return response()->json(['message' => 'Like added successfully']); */
+            return redirect()->back()->with('success', 'Like added successfully');
+        }
+
+       /*  return response()->json(['message' => 'Like already added']); */
+    }
+
+    public function unlike(Post $post)
+    {
+        // Lógica para quitar un "like" al post
+        $post->likes()->detach(auth()->id());
+        /* return response()->json(['message' => 'Like removed successfully']); */
+        return redirect()->back()->with('error', 'Like removed successfully');
     }
 }

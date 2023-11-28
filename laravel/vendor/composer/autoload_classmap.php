@@ -40,6 +40,7 @@ return array(
     'App\\Http\\Requests\\ProfileUpdateRequest' => $baseDir . '/app/Http/Requests/ProfileUpdateRequest.php',
     'App\\Mail\\TestMail' => $baseDir . '/app/Mail/TestMail.php',
     'App\\Models\\File' => $baseDir . '/app/Models/File.php',
+    'App\\Models\\Like' => $baseDir . '/app/Models/Like.php',
     'App\\Models\\Place' => $baseDir . '/app/Models/Place.php',
     'App\\Models\\Post' => $baseDir . '/app/Models/Post.php',
     'App\\Models\\Role' => $baseDir . '/app/Models/Role.php',
