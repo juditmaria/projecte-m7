@@ -68,3 +68,6 @@ Route::resource('places', PlaceController::class)
 
 Route::get('places/{place}/delete', [PlaceController::class, 'delete'])->name('places.delete')
     ->middleware(['auth', 'role.any:' . implode(',', [Role::ADMIN, Role::AUTHOR])]);
+
+Route::post('/places/{place}/favs', [PlaceController::class, 'favorite'])->name('places.favorite');
+Route::delete('/places/{place}/favs', [PlaceController::class, 'unfavorite'])->name('places.unfavorite');
