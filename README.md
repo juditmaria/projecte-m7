@@ -6,7 +6,7 @@ Clona el directorio del proyecto:
 
     git clone https://github.com/juditmaria/projecte-m7.git
 
-Instalar **composer** desde cero:
+En caso de no tener el composer, instalar **composer** desde cero:
 
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
     php -r "if (hash_file('sha384', 'composer-setup.php') ===         'e21205b207c3ff031906575712edab6f13eb0b361f2085f1f1237b7126d785e826a450292b6cfd1d64d92e6563bbde02') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
@@ -17,19 +17,20 @@ Cambia el nombre de *composer.phar* a *composer*:
 
     mv composer.phar composer
 
-Instala las **dependencias de Composer** que *no se incluyen en el control de versiones* debido a las restricciones establecidas en el archivo **.gitignore**:
+Si no, instala las **dependencias de Composer** que *no se incluyen en el control de versiones* debido a las restricciones establecidas en el archivo **.gitignore**:
 
     php .././composer install
 
 Instalar e iniciar npm
 
     npm install
-    npm audit fix
-    npm run dev
+    npm run build
 
-Enlazar las carpetas donde se guardan los archivos
+Para ejecutar el npm es con npm run dev.
 
-    php artisan storage:link 
+Enlazar las carpetas donde se guardan los archivos, recomendable revisar si ya existia la ruta y estaba enlazada ya que podría dar problemas con las imágenes. Para solventarlo hay que borrar la carpeta /public/storage y volver a ejecutar el siguiente comando:
+
+    php artisan storage:link
 
 En caso de usar sqlite habrá que crear en */laravel/database* el archivo *database.sqlite*. Con los comandos de migrate de php podremos hacer y desacer las tablas del proyecto.
 
@@ -38,6 +39,9 @@ Comandos de migrate:
   php artisan migrate
   php artisan migrate:rollback
   php artisan migrate:fresh
+
+Comandos de seeders:
+  php artisan db:seed
 
 Al iniciar el proyecto por primera vez ejecutaremos las migraciones para la creación de la base de datos:
  **php artisan migrate**
