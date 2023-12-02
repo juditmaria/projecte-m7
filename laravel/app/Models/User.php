@@ -48,10 +48,4 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->role_id === Role::ADMIN || $this->role_id === Role::EDITOR;
     }
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
-
 }
