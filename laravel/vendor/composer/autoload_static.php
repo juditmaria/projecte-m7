@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit320eb91c8215f214ddbe1429807a6b52
+class ComposerStaticInitffa77084902aeb60a511ba065770383b
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -404,8 +404,8 @@ class ComposerStaticInit320eb91c8215f214ddbe1429807a6b52
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -654,6 +654,11 @@ class ComposerStaticInit320eb91c8215f214ddbe1429807a6b52
         'Akaunting\\Money\\View\\Components\\Money' => __DIR__ . '/..' . '/akaunting/laravel-money/src/View/Components/Money.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Filament\\Resources\\UserResource' => __DIR__ . '/../..' . '/app/Filament/Resources/UserResource.php',
+        'App\\Filament\\Resources\\UserResource\\Pages\\CreateUser' => __DIR__ . '/../..' . '/app/Filament/Resources/UserResource/Pages/CreateUser.php',
+        'App\\Filament\\Resources\\UserResource\\Pages\\EditUser' => __DIR__ . '/../..' . '/app/Filament/Resources/UserResource/Pages/EditUser.php',
+        'App\\Filament\\Resources\\UserResource\\Pages\\ListUsers' => __DIR__ . '/../..' . '/app/Filament/Resources/UserResource/Pages/ListUsers.php',
+        'App\\Filament\\Resources\\UserResource\\Pages\\ViewUser' => __DIR__ . '/../..' . '/app/Filament/Resources/UserResource/Pages/ViewUser.php',
         'App\\Http\\Controllers\\Auth\\AuthenticatedSessionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/AuthenticatedSessionController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmablePasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmablePasswordController.php',
         'App\\Http\\Controllers\\Auth\\EmailVerificationNotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/EmailVerificationNotificationController.php',
@@ -7582,9 +7587,9 @@ class ComposerStaticInit320eb91c8215f214ddbe1429807a6b52
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit320eb91c8215f214ddbe1429807a6b52::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit320eb91c8215f214ddbe1429807a6b52::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit320eb91c8215f214ddbe1429807a6b52::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitffa77084902aeb60a511ba065770383b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitffa77084902aeb60a511ba065770383b::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitffa77084902aeb60a511ba065770383b::$classMap;
 
         }, null, ClassLoader::class);
     }
