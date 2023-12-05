@@ -22,19 +22,31 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                //
-                Forms\Components\Select::make('role_id')
+        ->schema([
+            Forms\Components\TextInput::make('name')
+                ->required(),
+            Forms\Components\TextInput::make('email')
+                ->required(),
+            Forms\Components\Select::make('role_id')
                 ->relationship('role', 'name')
                 ->required(),
-            ]);
+            Forms\Components\TextInput::make('password')
+                ->type('password')
+                ->required(),
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('role_id'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime(),
             ])
             ->filters([
                 //
@@ -42,6 +54,7 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
