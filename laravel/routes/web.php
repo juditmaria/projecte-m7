@@ -74,7 +74,6 @@ Route::resource('places', PlaceController::class)
 Route::get('places/{place}/delete', [PlaceController::class, 'delete'])->name('places.delete')
     ->middleware(['auth', 'role.any:' . implode(',', [Role::ADMIN, Role::AUTHOR])]);
 
-<<<<<<< HEAD
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/mainplaces', [MainPlacesController::class, 'index'])->name('mainplaces');
@@ -82,7 +81,5 @@ Route::get('/mainplaces', [MainPlacesController::class, 'index'])->name('mainpla
 Route::get('/aboutus', function () {
     return view('aboutus');
 });
-=======
 Route::post('/posts/{post}/likes', [PostController::class, 'like'])->name('posts.like');
 Route::delete('/posts/{post}/likes', [PostController::class, 'unlike'])->name('posts.unlike');
->>>>>>> b0.2-judit

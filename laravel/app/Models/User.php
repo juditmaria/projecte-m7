@@ -44,7 +44,6 @@ class User extends Authenticatable implements FilamentUser
         'password' => 'hashed',
     ];
 
-<<<<<<< HEAD
     public function canAccessFilament(): bool
     {
         return $this->role_id === Role::ADMIN || $this->role_id === Role::EDITOR;
@@ -53,11 +52,6 @@ class User extends Authenticatable implements FilamentUser
     public function role()
     {
         return $this->belongsTo(Role::class);
-=======
-    public function likes()
-    {
-        return $this->belongsToMany(Post::class, 'likes');
->>>>>>> b0.2-judit
     }
 
 }
