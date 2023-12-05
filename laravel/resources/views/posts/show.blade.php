@@ -42,7 +42,30 @@
                 </tr>
             </tbody>
         </table>
-        <div class="mt-8">
+
+        <!-- Mostrar el botón de agregar o quitar like según la condición -->
+        @if($userHasLiked)
+            <form action="{{ route('posts.unlike', $post->id) }}" method="post">
+                @csrf
+                @method('DELETE')
+                <br>
+                <button>
+                    <img style="width: 20px; margin-right: 10px; display: inline-block" src="https://cdn-icons-png.flaticon.com/512/359/359762.png" alt="Liked"> {{ $post->likes_count }}
+                </button>
+            </form>
+        @else
+            <form action="{{ route('posts.like', $post->id) }}" method="post">
+                @csrf
+                @method('POST')
+                <br>
+                <button>
+                    <img style="width: 20px; margin-right: 10px; display: inline-block" src="https://cdn-icons-png.flaticon.com/512/359/359963.png" alt="Liked"> {{ $post->likes_count }}
+                </button>
+            </form>
+        @endif
+
+
+        <div class="mt-8">        
             <x-primary-button href="{{ route('posts.edit', $post) }}">
                 {{ __('Edit') }}
             </x-danger-button>
