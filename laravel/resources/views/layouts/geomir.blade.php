@@ -42,6 +42,8 @@
                 <li class="p-2 mb-5"><a href="#"><img id="menu" src="{{ $chat }}" alt=""></a></li>
                 <?php $usuario = asset('img/usuario.png'); ?>
                 <li class="p-2 mb-5"><a href="#"><img id="menu" src="{{ $usuario }}" alt=""></a></li>
+                <?php $info = asset('img/info.png'); ?>
+                <li class="p-2 mb-5"><a href="{{ url('/aboutus') }}"><img id="menu" src="{{ $info }}" alt=""></a></li>
             </ul>
         </div>
         <div class="  w-screen bg-gray-800 flex flex-col items-center justify-center">

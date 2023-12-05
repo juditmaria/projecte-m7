@@ -9,6 +9,8 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
 <body class="flex justify-center bg-gray-800">
+        <?php $flecha = asset('img/flecha.png'); ?>
+        <a class="w-10 m-5" href="{{ url('/home') }}"><img id="menu" src="{{ $flecha }}" alt=""></a>
     <h1 class="text-center m-10 text-4xl">MEET OUR TEAM</h1>
     <div class="flex items-center justify-center">
         <div id="mapachefoto" class="mapachefoto cursor-pointer">
