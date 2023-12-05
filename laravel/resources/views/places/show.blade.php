@@ -9,8 +9,32 @@
     @section('column-1')
         <img class="w-full" src="{{ asset('storage/'.$file->filepath) }}" title="Image preview"/>
     @endsection
+
     @section('column-2')
-        <table class="table">
+        <div>
+            <h2>{{ $place->name }}</h2>
+            <p>{{ $place->description }}</p>
+            <br>
+            <p>Favoritos: {{$place->favorites_count}}</p>
+            @if(auth()->check() && $userHasFavorited)
+                <form action="{{ route('places.unfavorite', $place->id) }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button>
+                        <img style="width: 10%;" src="https://cdn-icons-png.flaticon.com/512/3747/3747736.png" alt="">             
+                    </button>                
+                </form>
+            @else
+                <form action="{{ route('places.favorite', $place->id) }}" method="post">
+                    @csrf
+                    @method('POST')
+                    <button>
+                        <img style="width: 10%; " src="https://cdn-icons-png.flaticon.com/512/3747/3747725.png" alt="">             
+                    </button>                
+                </form>
+            @endif
+        </div>
+        <table class="table mt-8">
             <tbody>
                 <tr>
                     <td><strong>ID<strong></td>
@@ -46,6 +70,7 @@
                 </tr>
             </tbody>
         </table>
+
         <div class="mt-8">
             <x-primary-button href="{{ route('places.edit', $place) }}">
                 {{ __('Edit') }}

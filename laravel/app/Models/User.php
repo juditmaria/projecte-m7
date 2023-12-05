@@ -44,6 +44,10 @@ class User extends Authenticatable implements FilamentUser
         'password' => 'hashed',
     ];
 
+    public function favorite(){
+        return $this->belongsToMany(Place::class,'favorites');
+    }
+
     public function canAccessFilament(): bool
     {
         return $this->role_id === Role::ADMIN || $this->role_id === Role::EDITOR;

@@ -19,6 +19,7 @@ class PlaceController extends Controller
      */
     public function index(Request $request)
     {
+        
         $collectionQuery = Place::orderBy('created_at', 'desc');
 
         // Filter?
@@ -31,6 +32,7 @@ class PlaceController extends Controller
             ? $collectionQuery->paginate(5)->withQueryString() 
             : $collectionQuery->get();
         
+
         return view("places.index", [
             "places" => $places,
             "search" => $search
@@ -106,10 +108,14 @@ class PlaceController extends Controller
      */
     public function show(Place $place)
     {
+        $place->loadCount('favorites');
+        $userHasFavorited = $place->favorites()->where('user_id', $place->user->id)->exists();
+
         return view("places.show", [
             'place'  => $place,
             'file'   => $place->file,
             'author' => $place->user,
+            'userHasFavorited' => $userHasFavorited,
         ]);
     }
 
@@ -201,5 +207,24 @@ class PlaceController extends Controller
         return view("places.delete", [
             'place' => $place
         ]);
+    }
+
+    public function favorite(Place $place)
+    {
+
+            $place->favorites()->attach(auth()->id());
+
+            return redirect()->back()->with('success', 'Place added to favorites successfully');
+        
+
+    }
+
+    public function unfavorite(Place $place)
+    {
+
+            $place->favorites()->detach(auth()->id());
+
+            return redirect()->back()->with('error', 'Place deleted to favorites successfully');
+        
     }
 }

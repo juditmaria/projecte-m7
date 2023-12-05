@@ -83,3 +83,8 @@ Route::get('/aboutus', function () {
 });
 Route::post('/posts/{post}/likes', [PostController::class, 'like'])->name('posts.like');
 Route::delete('/posts/{post}/likes', [PostController::class, 'unlike'])->name('posts.unlike');
+Route::post('/places/{place}/favs', [PlaceController::class, 'favorite'])->name('places.favorite');
+Route::delete('/places/{place}/favs', [PlaceController::class, 'unfavorite'])->name('places.unfavorite');
+
+Route::post('/places/{place}/favs', [PlaceController::class, 'favorite'])->name('places.favorite');
+Route::delete('/places/{place}/favs', [PlaceController::class, 'unfavorite'])->name('places.unfavorite');
