@@ -28,14 +28,14 @@
         }
     </style>
 </head>
-<body>
+<body class="overflow-hidden">
     <div id="main" class=" flex h-screen bg-gray-100">
         <div class="flex items-center justify-center w-64 bg-gray-800">
             <ul class="text-white">
                 <?php $home = asset('img/home.png'); ?>
                 <li class="p-2 mb-5"><a href="{{ route('home') }}"><img id="menu" src="{{ $home }}" alt=""></a></li>
                 <?php $places = asset('img/places.png'); ?>
-                <li class="p-2 mb-5"><a href="#"><img id="menu" src="{{ $places }}" alt=""></a></li>
+                <li class="p-2 mb-5"><a href="{{ route('mainplaces') }}"><img id="menu" src="{{ $places }}" alt=""></a></li>
                 <?php $new = asset('img/new.png'); ?>
                 <li class="p-2 mb-5"><a href="#"><img id="menu" src="{{ $new }}" alt=""></a></li>
                 <?php $chat = asset('img/chat.png'); ?>
@@ -51,10 +51,9 @@
 					<button class="px-2 rounded-r-lg text-white font-bold p-2 uppercase  border-t border-b border-r">Buscar</button>
 				</div>
 			</div>
-			<div class=" overflow-y-auto bg-gray-800 ">
+			<div class="overflow-hidden overflow-y-auto bg-gray-800 ">
 				<!-- Page Content -->
 				<main class="max-w-screen-lg w-full p-4">
-					@include('partials.flash')
 					{{ $slot }}
 				</main>
 			</div>

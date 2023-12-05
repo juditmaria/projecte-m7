@@ -4,11 +4,16 @@
     @import 'tailwindcss/utilities';
 
     #user{
-        width: 10%;
+        width: 20%;
         position: absolute;
         top: 10px; 
-        left: 150px;
+        left: 50px;
         background-color: #1E212B;
+    }
+    img.main-image {
+        width: 700px; /* Hacer que todas las imágenes principales ocupen el 100% del ancho del contenedor */
+        height: auto; /* Para mantener la proporción de aspecto */
+        max-width: 80%; /* Para asegurarse de que las imágenes no se estiren más allá de su tamaño natural */
     }
     img{
         width: 30px;
@@ -18,10 +23,11 @@
     }
 </style>
 <x-geomir-layout>
-    @foreach($post as $postItem)
+<body class="">
+@foreach($post as $postItem)
         <div class="flex">
             <div class="flex items-center justify-center relative">
-                <img class="w-2/3 rounded-2xl " src="{{ asset('storage/'.$postItem->file->filepath) }}" title="Image preview">
+                <img class="rounded-2xl main-image" src="{{ asset('storage/'.$postItem->file->filepath) }}" title="Image preview">
                 <div id="user" class="text-white flex items-center rounded-3xl">
                     <?php $usuario = asset('img/usuario.png'); ?>
                     <a href="#" class="flex items-center ">
@@ -43,12 +49,13 @@
             </div>
             
         </div>
-        <div class="flex items-center justify-center relative">
+        <div class="flex items-center justify-start relative">
             <div class=" w-2/3 m-10  text-white ">
-                {{ $postItem->description }}
+                {{ $postItem->body }}
             </div>
         </div>
         <!-- Si solo quieres mostrar detalles del primer lugar, puedes romper el bucle aquí -->
     @endforeach
+</body>
 </x-geomir-layout>
 

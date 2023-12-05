@@ -77,3 +77,7 @@ Route::get('places/{place}/delete', [PlaceController::class, 'delete'])->name('p
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/mainplaces', [MainPlacesController::class, 'index'])->name('mainplaces');
+
+Route::get('/aboutus', function () {
+    return view('aboutus');
+});
