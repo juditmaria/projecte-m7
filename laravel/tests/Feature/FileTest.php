@@ -20,7 +20,6 @@ class FileTest extends TestCase
        $this->_test_ok($response);
    }
 
-
    public function test_file_create() : object
    {
        // Create fake file
