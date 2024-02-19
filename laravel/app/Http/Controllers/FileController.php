@@ -155,4 +155,10 @@ class FileController extends Controller
             'file' => $file
         ]);
     }
+
+    public function update_workaround(Request $request, $id)
+   {
+       return $this->update($request, $id);
+   }
+
 }
