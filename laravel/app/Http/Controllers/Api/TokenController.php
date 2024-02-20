@@ -8,49 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\Api\TokenTest;
 
 class TokenController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
     public function user(Request $request)
     {
         $user = User::where('email', $request->user()->email)->first();
@@ -64,12 +26,6 @@ class TokenController extends Controller
 
     public function register(Request $request)
     {
-        // Llamar al método setUpBeforeClass del TokenTest para inicializar el usuario de prueba
-        TokenTest::setUpBeforeClass();
-
-        // Obtener el usuario de prueba del TokenTest
-        $testUser = TokenTest::$testUser;
-
         // Validar la solicitud
         $request->validate([
             'name' => 'required|string',
@@ -77,8 +33,18 @@ class TokenController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
+        // Crear el usuario de prueba
+        $user = new User([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password), // Asegúrate de encriptar la contraseña
+        ]);
+        
+        // Guardar el usuario en la base de datos
+        $user->save();
+
         // Crear un token para el usuario recién registrado
-        $token = $testUser->createToken('authToken')->plainTextToken;
+        $token = $user->createToken('authToken')->plainTextToken;
 
         // Devolver la respuesta JSON con el token generado y el estado de éxito
         return response()->json([
