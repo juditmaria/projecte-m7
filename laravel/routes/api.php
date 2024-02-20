@@ -48,3 +48,5 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::apiResource('places', PlaceController::class);
+Route::post('places/{place}', [PlaceController::class, 'update_workaround']);
+

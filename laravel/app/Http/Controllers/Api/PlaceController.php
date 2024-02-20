@@ -69,4 +69,9 @@ class PlaceController extends Controller
 
         return response()->json(['message' => 'Place deleted successfully']);
     }
+
+    public function update_workaround(Request $request, $id)
+    {
+        return $this->update($request, $id);
+    }
 }
