@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\TokenController;
+use App\Http\Controllers\Api\PostController;
+
 
 
 /*
@@ -36,3 +38,15 @@ Route::post('/logout', [TokenController::class, 'logout'])->middleware('auth:san
 Route::apiResource('files', FileController::class);
 
 Route::post('files/{file}', [FileController::class, 'update_workaround']);
+
+
+// Rutas para los posts
+Route::get('/posts', [PostController::class, 'index']);
+Route::post('/posts', [PostController::class, 'store']);
+Route::get('/posts/{post}', [PostController::class, 'show']);
+Route::put('/posts/{post}', [PostController::class, 'update']);
+Route::delete('/posts/{post}', [PostController::class, 'destroy']);
+
+// Rutas para los "me gusta" de los posts
+Route::post('/posts/{post}/likes', [PostController::class, 'like']);
+Route::delete('/posts/{post}/likes', [PostController::class, 'unlike']);
