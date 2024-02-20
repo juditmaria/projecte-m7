@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\FileController;
+use App\Http\Controllers\Api\TokenController;
 
 
 /*
@@ -19,6 +20,21 @@ use App\Http\Controllers\Api\FileController;
 /* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 }); */
+
+
+/* Mueve la lógica de /api/user al metodo user de TokenController */
+
+// Ruta para obtener información del usuario autenticado
+Route::middleware('auth:sanctum')->get('/user', [TokenController::class, 'user']);
+// Ruta para registrar un nuevo usuario
+//Route::post('/api/register', [TokenController::class, 'register'])->middleware('guest');
+Route::post('/api/register', [TokenController::class, 'register']);
+//Route::post('api/register', [TokenController::class, 'register'])->middleware('guest');
+// Ruta para iniciar sesión
+Route::post('/api/login', [TokenController::class, 'login'])->middleware('guest');
+// Ruta para cerrar sesión
+Route::post('/api/logout', [TokenController::class, 'logout'])->middleware('auth:sanctum');
+
 
 Route::apiResource('files', FileController::class);
 

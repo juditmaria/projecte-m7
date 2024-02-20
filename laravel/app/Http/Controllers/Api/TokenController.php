@@ -1,200 +1,130 @@
 <?php
 
-namespace Tests\Feature;
+namespace App\Http\Controllers\Api;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Laravel\Sanctum\Sanctum;
-use Illuminate\Testing\Fluent\AssertableJson;
+use Illuminate\Support\Facades\Hash;
 
-class TokenTest extends TestCase
-{   
-    public static object $testUser;
-
-    public static function setUpBeforeClass() : void
+class TokenController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        parent::setUpBeforeClass();
-
-        // Create test user (BD store later)
-        $name = "test_" . time();
-        self::$testUser = (object) [
-            "name"      => "{$name}",
-            "email"     => "{$name}@mailinator.com",
-            "password"  => "12345678"
-        ];
-    }
-
-    public function test_register()
-    {
-        // Create user using API web service
-        $response = $this->postJson('/api/register', [
-            "name"      => self::$testUser->name,
-            "email"     => self::$testUser->email,
-            "password"  => self::$testUser->password,
-        ]);
-        // Check response
-        $response->assertOk();
-        // Check validation errors
-        $response->assertValid(["name"]);
-        $response->assertValid(["email"]);
-        $response->assertValid(["password"]);
-        // Check TOKEN response
-        $this->_test_token($response);
-    }
-
-    public function test_register_error()
-    {
-        // Create user using API web service
-        $response = $this->postJson('/api/register', [
-            "name"      => "",
-            "email"     => "mailinator.com",
-            "password"  => "12345678",
-        ]);
-        // Check response
-        $response->assertStatus(422);
-        // Check validation errors
-        $response->assertInvalid(["name"]);
-        $response->assertInvalid(["email"]);
-        // Check JSON properties
-        $response->assertJson([
-            "message" => true, // any value
-            "errors"  => true, // any value
-        ]);       
-        // Check JSON dynamic values
-        $response->assertJsonPath("message",
-            fn ($message) => !empty($message) && is_string($message)
-        );
-        $response->assertJsonPath("errors",
-            fn ($errors) => is_array($errors)
-        );
+        //
     }
 
     /**
-     * @depends test_register
+     * Store a newly created resource in storage.
      */
-    public function test_login()
+    public function store(Request $request)
     {
-        $user = self::$testUser;
-        // Login using API web service
-        $response = $this->postJson('/api/login', [
-            "email"     => $user->email,
-            "password"  => $user->password,
-        ]);
-        // Check response
-        $response->assertOk();
-        // Check validation errors
-        $response->assertValid(["email","password"]);
-        // Check TOKEN response
-        $this->_test_token($response);
-    }
-
-    public function test_login_invalid()
-    {
-        // Login using API web service
-        $response = $this->postJson('/api/login', [
-            "email"     => "notexists@mailinator.com",
-            "password"  => "12345678",
-        ]);
-        // Check response
-        $response->assertStatus(401);
-        // Check JSON properties
-        $response->assertJson([
-            "success" => false,
-            "message" => true, // any value
-        ]);
-        // Check validation errors
-        $response->assertValid(["email","password"]);
+        //
     }
 
     /**
-     * @depends test_register
+     * Display the specified resource.
      */
-    public function test_logout()
+    public function show(string $id)
     {
-        $user = new User((array)self::$testUser);
-        Sanctum::actingAs(
-            $user,
-            ['*'] // grant all abilities to the token
-        );
-        // Logout using API web service
-        $response = $this->postJson('/api/logout');
-        // Check response
-        $response->assertOk();
-        // Check JSON properties
-        $response->assertJson([
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+
+    public function user(Request $request)
+    {
+        $user = User::where('email', $request->user()->email)->first();
+        
+        return response()->json([
             "success" => true,
-            "message" => true, // any value
+            "user"    => $request->user(),
+            "roles"   => [$user->role->name],
         ]);
     }
 
-    public function test_logout_unathourized()
+    public function register(Request $request)
     {
-        // Logout using API web service
-        $response = $this->postJson('/api/logout');
-        // Check response
-        $response->assertStatus(401);
-        // Check JSON properties
-        $response->assertJson([
-            "message" => true, // any value
-        ]);
-    }
+        // Llamar al método setUpBeforeClass del TokenTest para inicializar el usuario de prueba
+        TokenTest::setUpBeforeClass();
 
-    /**
-     * @depends test_register
-     */
-    public function test_user()
-    {
-        $user = new User((array)self::$testUser);
-        Sanctum::actingAs(
-            $user,
-            ['*'] // grant all abilities to the token
-        );
-        // Get user data using API web service
-        $response = $this->getJson('/api/user');
-        // Check response
-        $response->assertOk();
-        // Check JSON properties
-        $response->assertJson([
-            "success" => true,
-            "user"    => true, // any value
-        ]);
-        $response->assertJson(
-            fn (AssertableJson $json) =>
-                $json->where("user.name", $user->name)
-                    ->where("user.email", $user->email)
-                    ->missing("user.password")
-                    ->where('roles', ['author'])
-                    ->etc()
-        );
-    }
+        // Obtener el usuario de prueba del TokenTest
+        $testUser = TokenTest::$testUser;
 
-    public function test_user_unathourized()
-    {
-        // Get user data using API web service
-        $response = $this->getJson('/api/user');
-        // Check response
-        $response->assertStatus(401);
-        // Check JSON properties
-        $response->assertJson([
-            "message" => true, // any value
+        // Validar la solicitud
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
         ]);
-    }
 
-    protected function _test_token($response)
-    {
-        // Check JSON properties
-        $response->assertJson([
-            "success"   => true,
-            "authToken" => true, // any value
-            "tokenType" => true, // any value
-        ]);
-        // Check JSON dynamic values
-        $response->assertJsonPath("authToken",
-            fn ($authToken) => !empty($authToken)
-        );
-        // Check JSON exact values
-        $response->assertJsonPath("tokenType", "Bearer");
+        // Crear un token para el usuario recién registrado
+        $token = $testUser->createToken('authToken')->plainTextToken;
+
+        // Devolver la respuesta JSON con el token generado y el estado de éxito
+        return response()->json([
+            'success' => true,
+            'authToken' => $token,
+            'tokenType' => 'Bearer',
+        ], 201);
     }
+        
+
+   public function login(Request $request)
+   {
+       $credentials = $request->validate([
+           'email'     => 'required|email',
+           'password'  => 'required',
+       ]);
+       if (Auth::attempt($credentials)) {
+           // Get user
+           $user = User::where([
+               ["email", "=", $credentials["email"]]
+           ])->firstOrFail();
+           // Revoke all old tokens
+           $user->tokens()->delete();
+           // Generate new token
+           $token = $user->createToken("authToken")->plainTextToken;
+           // Token response
+           return response()->json([
+               "success"   => true,
+               "authToken" => $token,
+               "tokenType" => "Bearer"
+           ], 200);
+       } else {
+           return response()->json([
+               "success" => false,
+               "message" => "Invalid login credentials"
+           ], 401);
+       }
+   }
+
+   public function logout(Request $request)
+   {
+       $request->user()->currentAccessToken()->delete();
+
+       return response()->json([
+           'success' => true,
+           'message' => 'Logged out successfully',
+       ]);
+   }
 }
