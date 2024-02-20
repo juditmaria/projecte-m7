@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\TokenController;
+use App\Http\Controllers\Api\PlaceController;
+
 
 
 /*
@@ -36,3 +38,13 @@ Route::post('/logout', [TokenController::class, 'logout'])->middleware('auth:san
 Route::apiResource('files', FileController::class);
 
 Route::post('files/{file}', [FileController::class, 'update_workaround']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/places', [PlaceController::class, 'index']);
+    Route::post('/places', [PlaceController::class, 'store']);
+    Route::get('/places/{place}', [PlaceController::class, 'show']);
+    Route::put('/places/{place}', [PlaceController::class, 'update']);
+    Route::delete('/places/{place}', [PlaceController::class, 'destroy']);
+});
+
+Route::apiResource('places', PlaceController::class);
