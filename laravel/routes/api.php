@@ -50,3 +50,5 @@ Route::delete('/posts/{post}', [PostController::class, 'destroy']);
 // Rutas para los "me gusta" de los posts
 Route::post('/posts/{post}/likes', [PostController::class, 'like']);
 Route::delete('/posts/{post}/likes', [PostController::class, 'unlike']);
+
+Route::post('posts/{post}', [PostController::class, 'update_workaround']);
