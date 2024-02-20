@@ -23,7 +23,6 @@ use App\Http\Controllers\Api\TokenController;
 
 
 /* Mueve la lógica de /api/user al metodo user de TokenController */
-
 // Ruta para obtener información del usuario autenticado
 Route::middleware('auth:sanctum')->get('/user', [TokenController::class, 'user']);
 // Ruta para registrar un nuevo usuario
