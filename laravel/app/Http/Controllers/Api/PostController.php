@@ -107,33 +107,6 @@ class PostController extends Controller
         return response()->json(null, 204);
     }
 
-    /*
-     //Add like
-     
-    public function like(string $id) 
-    {
-        $post = Post::findOrFail($id);
-        $like = Like::create([
-            'user_id'  => auth()->user()->id,
-            'post_id' => $post->id
-        ]);
-        return response()->json($like, 201);
-    }
-
-    
-    //Undo like
-     
-    public function unlike(string $id) 
-    {
-        $post = Post::findOrFail($id);
-        $like = Like::where([
-            ['user_id', '=', auth()->user()->id],
-            ['post_id', '=', $post->id],
-        ])->firstOrFail();
-        $like->delete();
-        return response()->json(null, 204);
-    } */
-
     public function update_workaround(Request $request, $id)
     {
         return $this->update($request, $id);

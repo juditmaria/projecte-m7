@@ -24,7 +24,7 @@ use App\Http\Controllers\Api\PostLikeController;
     return $request->user();
 }); */
 
-
+Route::apiResource('token', TokenController::class);
 /* Mueve la lógica de /api/user al metodo user de TokenController */
 // Ruta para obtener información del usuario autenticado
 Route::middleware('auth:sanctum')->get('/user', [TokenController::class, 'user']);
@@ -37,10 +37,10 @@ Route::post('/logout', [TokenController::class, 'logout'])->middleware('auth:san
 
 
 Route::apiResource('files', FileController::class);
-
 Route::post('files/{file}', [FileController::class, 'update_workaround']);
 
 
+Route::apiResource('posts', PostController::class);
 // Rutas para los posts
 Route::get('/posts', [PostController::class, 'index']);
 Route::post('/posts', [PostController::class, 'store']);
@@ -49,6 +49,7 @@ Route::put('/posts/{post}', [PostController::class, 'update']);
 Route::delete('/posts/{post}', [PostController::class, 'destroy']);
 Route::post('posts/{post}', [PostController::class, 'update_workaround']);
 
+Route::apiResource('postslikes', PostLikeController::class);
 // Rutas para los "me gusta" de los posts
 Route::get('/posts/{post}/likes', [PostLikeController::class, 'index']);
 Route::post('/posts/{post}/likes', [PostLikeController::class, 'store']);
