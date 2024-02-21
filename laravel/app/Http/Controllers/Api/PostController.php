@@ -107,9 +107,9 @@ class PostController extends Controller
         return response()->json(null, 204);
     }
 
-    /**
-     * Add like
-     */
+    /*
+     //Add like
+     
     public function like(string $id) 
     {
         $post = Post::findOrFail($id);
@@ -120,9 +120,9 @@ class PostController extends Controller
         return response()->json($like, 201);
     }
 
-    /**
-     * Undo like
-     */
+    
+    //Undo like
+     
     public function unlike(string $id) 
     {
         $post = Post::findOrFail($id);
@@ -132,7 +132,7 @@ class PostController extends Controller
         ])->firstOrFail();
         $like->delete();
         return response()->json(null, 204);
-    }
+    } */
 
     public function update_workaround(Request $request, $id)
     {

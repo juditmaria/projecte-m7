@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\PostLikeController;
 
 
 
@@ -46,9 +47,12 @@ Route::post('/posts', [PostController::class, 'store']);
 Route::get('/posts/{post}', [PostController::class, 'show']);
 Route::put('/posts/{post}', [PostController::class, 'update']);
 Route::delete('/posts/{post}', [PostController::class, 'destroy']);
+Route::post('posts/{post}', [PostController::class, 'update_workaround']);
 
 // Rutas para los "me gusta" de los posts
-Route::post('/posts/{post}/likes', [PostController::class, 'like']);
-Route::delete('/posts/{post}/likes', [PostController::class, 'unlike']);
-
-Route::post('posts/{post}', [PostController::class, 'update_workaround']);
+Route::get('/posts/{post}/likes', [PostLikeController::class, 'index']);
+Route::post('/posts/{post}/likes', [PostLikeController::class, 'store']);
+Route::get('/posts/{post}/likes/{like}', [PostLikeController::class, 'show']);
+Route::put('/posts/{post}/likes/{like}', [PostLikeController::class, 'update']);
+Route::delete('/posts/{post}/likes/{like}', [PostLikeController::class, 'destroy']);
+Route::post('/posts/{post}/likes/{like}', [PostLikeController::class, 'update_workaround']);
