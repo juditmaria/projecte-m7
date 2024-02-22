@@ -25,14 +25,14 @@ use App\Http\Controllers\Api\PostLikeController;
 }); */
 
 Route::apiResource('token', TokenController::class);
-/* Mueve la lógica de /api/user al metodo user de TokenController */
-// Ruta para obtener información del usuario autenticado
+/* Mueve la l贸gica de /api/user al metodo user de TokenController */
+// Ruta para obtener informaci贸n del usuario autenticado
 Route::middleware('auth:sanctum')->get('/user', [TokenController::class, 'user']);
 // Ruta para registrar un nuevo usuario
 Route::post('/register', [TokenController::class, 'register'])->middleware('guest');
-// Ruta para iniciar sesión
+// Ruta para iniciar sesi贸n
 Route::post('/login', [TokenController::class, 'login'])->middleware('guest');
-// Ruta para cerrar sesión
+// Ruta para cerrar sesi贸n
 Route::post('/logout', [TokenController::class, 'logout'])->middleware('auth:sanctum');
 
 
