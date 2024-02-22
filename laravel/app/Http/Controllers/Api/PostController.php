@@ -58,7 +58,7 @@ class PostController extends Controller
                 'body'      => $body,
                 'latitude'  => $latitude,
                 'longitude' => $longitude,
-                'author_id' => $authorId, // Usar el ID del usuario autenticado
+                'author_id' => 1, // Usar el ID del usuario autenticado
                 'file_id'   => $file->id, // Asociar el archivo al post
             ]);
             $post->save(); // Guardar la publicación en la base de datos
@@ -104,7 +104,7 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $post->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Publicación eliminada correctamente.'], 204);
     }
 
     public function update_workaround(Request $request, $id)
