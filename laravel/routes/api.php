@@ -59,3 +59,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
     Route::put('/favorites/{favorite}', [FavoriteController::class, 'update'])->name('favorites.update'); // Cambiado a PUT
 });
+
