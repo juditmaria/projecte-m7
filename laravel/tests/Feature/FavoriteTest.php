@@ -19,7 +19,7 @@ class FavoriteTest extends TestCase
      * Test can create a favorite.
      */
 
-     public function testCanCreateFavorite()
+     public function test_can_create_favorite()
      {
          $user = User::factory()->create();
          $place = Place::factory()->create();
@@ -29,11 +29,12 @@ class FavoriteTest extends TestCase
              'place_id' => $place->id,
          ];
      
-         $response = $this->actingAs($user)->postJson('/api/favorites/' . $place->id, $favoriteData);
+         $response = $this->actingAs($user)->postJson('/api/favorites', $favoriteData);
      
          $response->assertStatus(201);
          $this->assertDatabaseHas('favorites', $favoriteData);
      }
+     
      
 
 

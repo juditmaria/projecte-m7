@@ -52,11 +52,10 @@ Route::apiResource('places', PlaceController::class);
 Route::post('places/{place}', [PlaceController::class, 'update_workaround']);
 
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
-    Route::post('/favorites/{place}', [FavoriteController::class, 'store'])->name('favorites.store');
-    Route::get('/favorites/{favorite}', [FavoriteController::class, 'show'])->name('favorites.show');
-    Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
-    Route::put('/favorites/{favorite}', [FavoriteController::class, 'update'])->name('favorites.update'); // Cambiado a PUT
-});
+Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
+Route::get('/favorites/{favorite}', [FavoriteController::class, 'show'])->name('favorites.show');
+Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+Route::put('/favorites/{favorite}', [FavoriteController::class, 'update'])->name('favorites.update');
+
 

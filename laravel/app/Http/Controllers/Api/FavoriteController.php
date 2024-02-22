@@ -28,23 +28,18 @@ class FavoriteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $placeId)
+    public function store(Request $request)
     {
-        $user = $request->user(); // Accede al usuario autenticado a través de la solicitud
+        $request->validate([
+            'user_id' => 'required',
+            'place_id' => 'required',
+        ]);
 
-        // Verificar si el lugar ya está marcado como favorito por el usuario
-        if (Favorite::where('user_id', $user->id)->where('place_id', $placeId)->exists()) {
-            return response()->json(['error' => 'El lugar ya está marcado como favorito.'], 422);
-        }
-
-        // Crear el favorito
-        $favorite = new Favorite();
-        $favorite->user_id = $user->id;
-        $favorite->place_id = $placeId;
-        $favorite->save();
+        $favorite = Favorite::create($request->all());
 
         return response()->json($favorite, 201);
     }
+
 
     /**
      * Display the specified resource.
