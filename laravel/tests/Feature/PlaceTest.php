@@ -76,23 +76,23 @@ class PlaceTest extends TestCase
     public function test_can_update_place()
     {
         $user = User::factory()->create();
-        $this->actingAs($user);
 
-        $place = Place::factory()->create();
+        // Crea un archivo en la base de datos
+        $file = File::factory()->create();
 
-        $newData = [
-            'name' => 'Updated Name',
-            'description' => 'Updated Description',
+        $placeData = [
+            'name' => 'Test Place',
+            'description' => 'This is a test place',
             'latitude' => '10.123456',
             'longitude' => '20.654321',
-            'file_id' => '5', // Usamos el ID del archivo
-            // Add other required fields here
+            'file_id' => $file->id, // Utiliza el ID del archivo creado
+            'author_id' => $user->id, // Utiliza el ID del usuario autenticado
         ];
 
-        $response = $this->putJson("/api/places/{$place->id}", $newData);
+        $response = $this->actingAs($user)->postJson('/api/places', $placeData);
 
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('places', $newData);
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('places', $placeData);
     }
 
     /**

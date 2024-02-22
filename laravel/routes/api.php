@@ -6,7 +6,8 @@ use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\PostLikeController;
-
+use App\Http\Controllers\Api\PlaceController;
+use App\Http\Controllers\Api\FavoriteController;
 
 
 /*
@@ -20,25 +21,14 @@ use App\Http\Controllers\Api\PostLikeController;
 |
 */
 
-/* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-}); */
-
 Route::apiResource('token', TokenController::class);
-/* Mueve la l贸gica de /api/user al metodo user de TokenController */
-// Ruta para obtener informaci贸n del usuario autenticado
 Route::middleware('auth:sanctum')->get('/user', [TokenController::class, 'user']);
-// Ruta para registrar un nuevo usuario
 Route::post('/register', [TokenController::class, 'register'])->middleware('guest');
-// Ruta para iniciar sesi贸n
 Route::post('/login', [TokenController::class, 'login'])->middleware('guest');
-// Ruta para cerrar sesi贸n
 Route::post('/logout', [TokenController::class, 'logout'])->middleware('auth:sanctum');
-
 
 Route::apiResource('files', FileController::class);
 Route::post('files/{file}', [FileController::class, 'update_workaround']);
-
 
 Route::apiResource('posts', PostController::class);
 // Rutas para los posts
@@ -57,3 +47,16 @@ Route::get('/posts/{post}/likes/{like}', [PostLikeController::class, 'show']);
 Route::put('/posts/{post}/likes/{like}', [PostLikeController::class, 'update']);
 Route::delete('/posts/{post}/likes/{like}', [PostLikeController::class, 'destroy']);
 Route::post('/posts/{post}/likes/{like}', [PostLikeController::class, 'update_workaround']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('places', PlaceController::class);
+    Route::post('places/{place}', [PlaceController::class, 'update_workaround']);
+
+    // Rutas para los favoritos
+    Route::get('/places/{place}/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/places/{place}/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
+    Route::get('/places/{place}/favorites/{favorite}', [FavoriteController::class, 'show'])->name('favorites.show');
+    Route::put('/places/{place}/favorites/{favorite}', [FavoriteController::class, 'update'])->name('favorites.update');
+    Route::delete('/places/{place}/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+    Route::post('/places/{place}/favorites/{favorite}', [FavoriteController::class, 'update_workaround']);
+});

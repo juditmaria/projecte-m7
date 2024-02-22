@@ -52,12 +52,12 @@ class PlaceController extends Controller
             'description' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            // Add other required fields here
+            'file_id' => 'required',
+            'author_id'=> 'required',
+            // Agrega otras reglas de validación según sea necesario
         ]);
-
-        $place->update($validatedData);
-
-        return $place->fresh();
+    
+        return Place::create($validatedData);
     }
 
     /**

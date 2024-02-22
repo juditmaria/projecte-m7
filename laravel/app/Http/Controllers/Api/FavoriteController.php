@@ -12,13 +12,10 @@ class FavoriteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($placeId)
     {
-        // Obtener el usuario autenticado
-        $user = Auth::user();
-
-        // Obtener los favoritos asociados al usuario
-        $favorites = Favorite::where('user_id', $user->id)->get();
+        // Obtener los favoritos asociados al lugar
+        $favorites = Favorite::where('place_id', $placeId)->get();
 
         // Retornar los favoritos como respuesta JSON
         return response()->json($favorites);
@@ -28,14 +25,19 @@ class FavoriteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $placeId)
     {
         $request->validate([
             'user_id' => 'required',
-            'place_id' => 'required',
         ]);
 
-        $favorite = Favorite::create($request->all());
+        $request->merge(['place_id' => $placeId]);
+
+        // No se necesita el método create() ya que no hay columna 'id'
+        $favorite = Favorite::firstOrCreate([
+            'user_id' => $request->user_id,
+            'place_id' => $placeId,
+        ]);
 
         return response()->json($favorite, 201);
     }
@@ -44,13 +46,10 @@ class FavoriteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($placeId)
+    public function show($placeId, $favorite)
     {
-        $user = Auth::user();
-
-        $favorite = Favorite::where('user_id', $user->id)
-            ->where('place_id', $placeId)
-            ->firstOrFail();
+        // En lugar de findOrFail(), buscaremos por las columnas 'user_id' y 'place_id'
+        $favorite = Favorite::where('user_id', $favorite)->where('place_id', $placeId)->firstOrFail();
 
         return response()->json($favorite);
     }
@@ -58,50 +57,38 @@ class FavoriteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $placeId)
+    public function update(Request $request, $placeId, $userId)
     {
-        $user = Auth::user();
-
-        // Buscar el favorito a actualizar
-        $favorite = Favorite::where('user_id', $user->id)
-                            ->where('place_id', $placeId)
+        // Buscar el favorito por el ID del lugar y el ID del usuario
+        $favorite = Favorite::where('place_id', $placeId)
+                            ->where('user_id', $userId)
                             ->firstOrFail();
 
-        // Validar los datos proporcionados en la solicitud
-        $request->validate([
-            'place_id' => 'required', // Requerir un nuevo ID del lugar en la solicitud
-        ]);
+        // Actualizar el favorito con los datos proporcionados en la solicitud
+        $favorite->update($request->all());
 
-        // Actualizar solo el campo 'place_id' del favorito
-        $favorite->update([
-            'place_id' => $request->place_id,
-        ]);
-
-        return response()->json($favorite);
+        return response()->json($favorite, 200);
     }
 
-    
-    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($placeId)
+    public function destroy($placeId, $favorite)
     {
-        $user = Auth::user();
+        // En lugar de findOrFail(), eliminaremos por las columnas 'user_id' y 'place_id'
+        $deleted = Favorite::where('user_id', $favorite)->where('place_id', $placeId)->delete();
 
-        // Buscar y eliminar el favorito
-        $favorite = Favorite::where('user_id', $user->id)
-            ->where('place_id', $placeId)
-            ->firstOrFail();
-        $favorite->delete();
-
-        return response()->json(null, 204);
+        if ($deleted) {
+            return response()->json(null, 204);
+        } else {
+            return response()->json(['error' => 'No se pudo encontrar el favorito para eliminar'], 404);
+        }
     }
 
     public function update_workaround(Request $request, $id)
-    {
-        return $this->update($request, $id);
-    }
- 
+   {
+       return $this->update($request, $id);
+   }
+
 }
