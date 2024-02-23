@@ -155,5 +155,4 @@ class FileController extends Controller
             'file' => $file
         ]);
     }
-
 }
