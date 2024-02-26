@@ -24,13 +24,7 @@ return new class extends Migration
                   ->references('id')->on('posts')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            // Eloquent does not support composite PK :-(
-            // $table->primary(['user_id', 'post_id']);
-        });
-        // Eloquent compatibility workaround :-)
-        Schema::table('likes', function (Blueprint $table) {
-            $table->id()->first();
-            $table->unique(['user_id', 'post_id']);
+            $table->primary(['user_id', 'post_id']); // Define composite primary key
         });
     }
 
