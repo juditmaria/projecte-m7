@@ -125,26 +125,34 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        $file = File::find($id);
+/**
+ * Remove the specified resource from storage.
+ */
+public function destroy(string $id)
+{
+    $file = File::find($id);
 
-        if ($file) {
-            $file->diskDelete($id);
+    if ($file) {
+        $file->diskDelete($id);
 
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'message' => 'File deleted successfully'
-                ]
-            ], 200);
-        } else {
-            return response()->json([
-                'success'  => false,
-                'message' => 'File not found'
-            ], 404);
-        }
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id'         => $file->id,
+                'filepath'   => $file->filepath,
+                'filesize'   => $file->filesize,
+                'created_at' => $file->created_at,
+                'updated_at' => $file->updated_at
+            ]
+        ], 200);
+    } else {
+        return response()->json([
+            'success'  => false,
+            'message' => 'File not found'
+        ], 404);
     }
+}
+
 
     public function update_workaround(Request $request, $id)
     {

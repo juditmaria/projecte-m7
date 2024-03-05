@@ -19,10 +19,17 @@ class TokenController extends Controller
         
         return response()->json([
             "success" => true,
-            "user"    => $request->user(),
+            "user"    => [
+                "id"         => $user->id,
+                "name"       => $user->name,
+                "email"      => $user->email,
+                "created_at" => $user->created_at,
+                "updated_at" => $user->updated_at,
+            ],
             "roles"   => [$user->role->name],
         ]);
     }
+    
 
     public function register(Request $request)
     {
@@ -32,7 +39,7 @@ class TokenController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
         ]);
-
+    
         // Crear el usuario de prueba
         $user = new User([
             'name' => $request->name,
@@ -42,17 +49,18 @@ class TokenController extends Controller
         
         // Guardar el usuario en la base de datos
         $user->save();
-
+    
         // Crear un token para el usuario recién registrado
         $token = $user->createToken('authToken')->plainTextToken;
-
+    
         // Devolver la respuesta JSON con el token generado y el estado de éxito
         return response()->json([
             'success' => true,
             'authToken' => $token,
             'tokenType' => 'Bearer',
-        ], 201);
+        ]);
     }
+    
         
 
    public function login(Request $request)
